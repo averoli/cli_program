@@ -6,7 +6,7 @@ import { readFile, writeFile } from "fs";
 const log = console.log;
 
 import ora from "ora";
-const spinner = ora("Loading unicorns");
+const spinner = ora("Loading popular persons data");
 
 export function getPopularPersons(page, apiKey) {
   spinner.start();
@@ -17,12 +17,10 @@ export function getPopularPersons(page, apiKey) {
       res
         .on("data", (d) => {
           fetchedData += d;
-
-          // process.stdout.write(d);
-          spinner.succeed();
         })
         .on("end", () => {
           setChalkColors(JSON.parse(fetchedData));
+          spinner.succeed();
           spinner.stop();
         });
     }
@@ -31,23 +29,10 @@ export function getPopularPersons(page, apiKey) {
     spinner.fail("error on fetching");
   });
 
-			res.on("data", (d) => {
-				data += d;
-			}).on("end", () => {
-				const popularPersonData = JSON.parse(data);
-				console.log(popularPersonData);
-				spinner.succeed();
-				spinner.stop();
-			})
-		}).on("error", (e) => {
-		console.error(e);
-		spinner.fail("error on fetching");
-	});
-
-	setTimeout(() => {
-		spinner.color = "yellow";
-		spinner.text = "Loading rainbows";
-	}, 1000);
+  setTimeout(() => {
+    spinner.color = "yellow";
+    spinner.text = "Popular Persons data loaded";
+  }, 1000);
 }
 
 const setChalkColors = (popularPersonsData) => {
@@ -69,17 +54,29 @@ const getPersonData = (personData) => {
         `Person: \n`,
         `ID: ${person.id} \n`
       ) +
-        chalk.blue.bold(`Name: ${person.name} \n`) +
+        chalk.white(`Name: `) +
+        chalk.blue.bold(` ${person.name} \n`) +
         (person.known_for_department === "Acting"
-          ? chalk.magenta(`Department: ${person.known_for_department}"  \n`)
+          ? chalk.white(`Department: `) +
+            chalk.magenta(` ${person.known_for_department}  \n`)
           : "")
     );
-    getPersonMovie(person.known_for);
+    person.known_for.length > 0
+      ? getPersonMovie(person.known_for)
+      : log(chalk.white(`${person.name} doesn't appear in any movie \n`));
   });
 };
 
 const getPersonMovie = (movies) => {
   movies.map((movie) => {
-    movie.title !== undefined && log(movie.title);
+    movie.title !== undefined &&
+      log(
+        `\n` +
+          chalk.white(`\t MOVIE: \n`) +
+          chalk.white(`\t ID: ${movie.id} \n`) +
+          chalk.white(`\t Release Date: ${movie.release_date} \n`) +
+          chalk.white(`\t Title: ${movie.title} `) +
+          `\n`
+      );
   });
 };

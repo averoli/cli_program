@@ -3,7 +3,7 @@ const require = createRequire(import.meta.url);
 
 require("dotenv").config();
 
-import { getPopularPersons } from "./persons.js";
+import { getPopularPersons } from "./popularPeople.js";
 import { program } from "commander";
 
 program
