@@ -1,17 +1,17 @@
 import { get } from "node:https";
 import chalk from "chalk";
 
-import { readFile, writeFile } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 
 const log = console.log;
 
 import ora from "ora";
 const spinner = ora("Loading popular persons data");
 
-export function getPopularPersons(page, apiKey) {
+export function getPopularPersons(options, apiKey) {
   spinner.start();
   get(
-    `https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&language=en-US&page=${page}`,
+    `https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&language=en-US&page=${options.page}`,
     (res) => {
       let fetchedData = "";
       res
@@ -19,7 +19,9 @@ export function getPopularPersons(page, apiKey) {
           fetchedData += d;
         })
         .on("end", () => {
-          setChalkColors(JSON.parse(fetchedData));
+          options.save
+            ? savePersonsData(fetchedData)
+            : setChalkColors(JSON.parse(fetchedData));
           spinner.succeed();
           spinner.stop();
         });
@@ -46,8 +48,8 @@ const setChalkColors = (popularPersonsData) => {
   getPersonData(popularPersonsData.results);
 };
 
-const getPersonData = (personData) => {
-  personData.map((person) => {
+const getPersonData = (personsData) => {
+  personsData.map((person) => {
     log(
       chalk.white(`----------------------------------------------------- \n`) +
         chalk.white(`Person: \n\n`) +
@@ -61,6 +63,18 @@ const getPersonData = (personData) => {
     );
     getPersonMovie(person.known_for, person);
   });
+};
+
+const savePersonsData = (personsData) => {
+  readFileSync("./storedData/persons/persons.json", (err, data) => {
+    if (err) throw err;
+  });
+
+  try {
+    writeFileSync("./storedData/persons/persons.json", personsData);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const getPersonMovie = (movies, person) => {

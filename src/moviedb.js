@@ -13,12 +13,17 @@ program
   .command("get-persons")
   .description("Make a network request to fetch the most popular persons")
   .requiredOption("-p, --popular", "Fetch the popular persons")
-  .requiredOption("--page <number>","The page of persons data results to fetch")
+  .requiredOption(
+    "--page <number>",
+    "The page of persons data results to fetch"
+  )
+  .option("--save")
+  .option("--local")
   .action((options) => {
-    getPopularPersons(options.page, process.env.API_KEY);
+    getPopularPersons(options, process.env.API_KEY);
   });
 
-  program
+program
   .command("get-person")
   .description("Make a network request to fetch the data of a single person")
   .requiredOption("-i, --id <number>", "The id of the person")
@@ -34,17 +39,17 @@ program
     getPersonDetails(options.id, process.env.API_KEY);
   });
 
-  program
+program
   .command("get-movies")
   .description("Make a network request to fetch movies")
-  .requiredOption("--page <number>","The page of movies data results to fetch")
+  .requiredOption("--page <number>", "The page of movies data results to fetch")
   .option("-p, --popular", "Fetch the popular movies")
   .option("-n, --now-playing", "Fetch the movies that are playing now")
   .action((options) => {
     getPopularMovies(options, process.env.API_KEY);
   });
 
-  program
+program
   .command("get-movie")
   .description("Make a network request to fetch the data of a single movie")
   .requiredOption("-i, --id <number>", "The id of the movie")
