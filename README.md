@@ -4,7 +4,7 @@
 
 In this project we create a command-line interface for fetching data from an API.
 
-We create a custom commands so we can access different data from [The Movie Database ](https://www.themoviedb.org/), once we display it on the terminal.
+We created custom commands so that we can access different data from [The Movie Database ](https://www.themoviedb.org/), and then we display it on the terminal.
 
 ## Getting Started
 
@@ -50,14 +50,14 @@ npm install
 
 "Terminal Commands"
 #  Popular persons
-> node moviedb.js get-persons --page 1 --popular
+> node moviedb.js get-persons --page XX --popular
 
 #  Person details
 > node moviedb get-person --id XXXXXXXX
 
 # Movies
-> node moviedb.js get-movies --popular --page 2
-> node moviedb.js get-movies --now-playing --page 2
+> node moviedb.js get-movies --popular --page XX
+> node moviedb.js get-movies --now-playing --page XX
 
 
 #  Single Movie details
