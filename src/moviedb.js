@@ -12,7 +12,7 @@ program
   .requiredOption("-p, --popular", "Fetch the popular persons")
   .requiredOption("--page <number>","The page of persons data results to fetch")
   .action((options) => {
-      getPersons(options.page, process.env.API_KEY);
+    getPopularPersons(options.page, process.env.API_KEY);
   });
 
   program
