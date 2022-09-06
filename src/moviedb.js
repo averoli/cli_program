@@ -36,11 +36,7 @@ program
   .requiredOption("-p, --popular", "Fetch the popular persons")
   .requiredOption("--page <number>","The page of persons data results to fetch")
   .action((options) => {
-    spinner.start();
-    setTimeout(() => {
       getPersons(options.page, process.env.API_KEY);
-      spinner.stop();
-    }, 1000);
   });
 
   program
@@ -52,8 +48,3 @@ program
   });
 
 program.parse();
-
-setTimeout(() => {
-	spinner.color = 'yellow';
-	spinner.text = 'Loading rainbows';
-}, 1000);
