@@ -1,33 +1,9 @@
-// import { createRequire } from "node:module";
-// const require = createRequire(import.meta.url);
-
-// require("dotenv").config();
-
-// import { getPersons } from "./persons.js";
-
-// import { program } from "commander";
-
-// program
-//   .command("get-persons")
-//   .description("Make a network request to fetch the most popular persons")
-//   .requiredOption("-p, --popular", "Fetch the popular persons")
-//   .requiredOption(
-//     "--page <number>",
-//     "The page of persons data results to fetch"
-//   )
-//   .option("--details")
-//   .action((options) => {
-//     getPersons(options.page, process.env.API_KEY);
-//   });
-
-// program.parse();
-
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
 require("dotenv").config();
 
-import { getPersons } from "./persons.js";
+import { getPopularPersons } from "./persons.js";
 import { program } from "commander";
 
 program
@@ -39,7 +15,7 @@ program
     "The page of persons data results to fetch"
   )
   .action((options) => {
-    getPersons(options.page, process.env.API_KEY);
+    getPopularPersons(options.page, process.env.API_KEY);
   });
 
 program.parse();
