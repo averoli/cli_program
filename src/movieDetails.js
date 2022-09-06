@@ -86,8 +86,8 @@ const setChalkColorsReview = (reviews) => {
 				chalk.white(`Reviews: \n\n`) +
 				chalk.blue.bold(`Author: ${review.author} \n`) +
 				chalk.white(`Content: `) +
-				(review.content.length >= 400 ? chalk.blue.bold(` ${review.content.slice(0,400)}... \n`) :
-					chalk.blue.bold(` ${review.content} \n`))
+				(review.content.length >= 400 ? chalk.white(` ${review.content.slice(0,400)}... \n`) :
+					chalk.white(` ${review.content} \n`))
 			)
 		})
 	) : log(chalk.yellow(`The movie: ${reviews.id} doesn’t have any reviews`))
