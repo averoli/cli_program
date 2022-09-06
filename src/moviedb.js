@@ -4,6 +4,7 @@ const require = createRequire(import.meta.url);
 require("dotenv").config();
 
 import { getPopularPersons } from "./popularPeople.js";
+import { getPersonDetails } from "./personDetails.js";
 import { program } from "commander";
 
 program
@@ -18,4 +19,11 @@ program
     getPopularPersons(options.page, process.env.API_KEY);
   });
 
+program
+  .command("get-person")
+  .description("Make a network request to fetch the data of a single person")
+  .requiredOption("-i, --id <number>", "The id of the person")
+  .action((options) => {
+    getPersonDetails(options.id, process.env.API_KEY);
+  });
 program.parse();
