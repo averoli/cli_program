@@ -49,11 +49,9 @@ const setChalkColors = (popularPersonsData) => {
 const getPersonData = (personData) => {
   personData.map((person) => {
     log(
-      chalk.white(
-        `----------------------------------------------------- \n`,
-        `Person: \n`,
-        `ID: ${person.id} \n`
-      ) +
+      chalk.white(`----------------------------------------------------- \n`) +
+        chalk.white(`Person: \n\n`) +
+        chalk.white(`ID: ${person.id} \n`) +
         chalk.white(`Name: `) +
         chalk.blue.bold(` ${person.name} \n`) +
         (person.known_for_department === "Acting"
@@ -61,26 +59,24 @@ const getPersonData = (personData) => {
             chalk.magenta(` ${person.known_for_department}  \n`)
           : "")
     );
-    getPersonMovie(person.known_for, person)
+    getPersonMovie(person.known_for, person);
   });
 };
 
 const getPersonMovie = (movies, person) => {
   let hasMovies = 0;
-
   movies.map((movie) => {
     movie.title !== undefined &&
-    (
-      log(
+      (log(
+        `\n` +
           chalk.white(`\t MOVIE: \n`) +
           chalk.white(`\t ID: ${movie.id} \n`) +
           chalk.white(`\t Release Date: ${movie.release_date} \n`) +
           chalk.white(`\t Title: ${movie.title} `) +
           `\n`
       ),
-      hasMovies++
-    )
+      hasMovies++);
   });
-  console.log(hasMovies);
-  hasMovies <= 0 && log(chalk.white(`${person.name} doesn't appear in any movie \n`));
+  hasMovies <= 0 &&
+    log(chalk.white(`${person.name} doesn't appear in any movie \n`));
 };
