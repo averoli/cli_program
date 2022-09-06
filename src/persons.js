@@ -1,38 +1,38 @@
-import https from "node:https";
+import { get } from "node:https";
+import { readFile, writeFile } from "fs";
+
+import ora from "ora";
+const spinner = ora("Loading unicorns");
 
 export function getPersons(page, apiKey) {
-
-  https.get(`https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&language=en-US&page=${page}`, (res) => {
+  spinner.start();
+  get(
+    `https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&language=en-US&page=${page}`,
+    (res) => {
       console.log("statusCode:", res.statusCode);
       console.log("headers:", res.headers);
 
+      const data = '';
+
       res.on("data", (d) => {
-        console.log(d);
-        process.stdout.write(d);
-      });
+        data += chunk;
+      }).on("end", () => {
+        const popularPersonData = 
+        spinner.succeed();
+        spinner.stop();
+      })
+    }
+  ).on("error", (e) => {
+    console.error(e);
+    spinner.fail("error on fetching");
+  });
 
-    })
-    .on("error", (e) => {
-      console.error(e);
-    });
+  setTimeout(() => {
+    spinner.color = "yellow";
+    spinner.text = "Loading rainbows";
+  }, 1000);
+}
 
-  // const options = {
-  //   hostname: `https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&page=${page}`,
-  //   port: 443,
-  //   path: '/todos',
-  //   method: 'GET'
-  // };
-
-  // const req = https.request(options, (res) => {999999999999999999999999999999999999999
-
-  //   res.on('data', (d) => {
-  //     console.log();
-  //     process.stdout.write(d);
-  //   });
-  // });
-
-  // req.on('error', (e) => {
-  //   console.error(e);
-  // });
-  // req.end();
+export function getDetails() {
+  console.log("details");
 }

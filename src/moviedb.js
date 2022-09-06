@@ -1,13 +1,34 @@
-import { createRequire } from 'node:module';
+// import { createRequire } from "node:module";
+// const require = createRequire(import.meta.url);
+
+// require("dotenv").config();
+
+// import { getPersons } from "./persons.js";
+
+// import { program } from "commander";
+
+// program
+//   .command("get-persons")
+//   .description("Make a network request to fetch the most popular persons")
+//   .requiredOption("-p, --popular", "Fetch the popular persons")
+//   .requiredOption(
+//     "--page <number>",
+//     "The page of persons data results to fetch"
+//   )
+//   .option("--details")
+//   .action((options) => {
+//     getPersons(options.page, process.env.API_KEY);
+//   });
+
+// program.parse();
+
+import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
 require("dotenv").config();
 
-import ora from "ora";
 import { getPersons } from "./persons.js";
 import { program } from "commander";
-
-const spinner = ora('Loading unicorns');
 
 program
   .command("get-persons")
@@ -27,11 +48,7 @@ program
   .description("Make a network request to fetch the data of a single person")
   .requiredOption("-i, --id <number>", "The id of the person")
   .action((options) => {
-    spinner.start();
-    setTimeout(() => {
-      getPersons(options.number, process.env.API_KEY);
-      spinner.stop();
-    }, 1000);
+    getPersons(options.page, process.env.API_KEY);
   });
 
 program.parse();
