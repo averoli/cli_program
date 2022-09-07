@@ -1,8 +1,6 @@
 import { get } from "node:https";
 import chalk from "chalk";
 
-import { readFile, writeFile } from "fs";
-
 const log = console.log;
 
 import ora from "ora";

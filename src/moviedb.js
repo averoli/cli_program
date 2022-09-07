@@ -18,14 +18,6 @@ program
     getPopularPersons(options.page, process.env.API_KEY);
   });
 
-  program
-  .command("get-person")
-  .description("Make a network request to fetch the data of a single person")
-  .requiredOption("-i, --id <number>", "The id of the person")
-  .action((options) => {
-    getPopularPersons(options.page, process.env.API_KEY);
-  });
-
 program
   .command("get-person")
   .description("Make a network request to fetch the data of a single person")

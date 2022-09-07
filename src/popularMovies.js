@@ -3,11 +3,6 @@ import {
 } from "node:https";
 import chalk from "chalk";
 
-import {
-    readFile,
-    writeFile
-} from "fs";
-
 const log = console.log;
 
 import ora from "ora";
@@ -50,10 +45,10 @@ const setChalkColors = (popularMovieData) => {
         log( chalk.white(`\n----------------------------------------------------- \n`)+
         chalk.white(`Page: ${popularMovieData.page} of ${popularMovieData.total_pages} \n`));
 
-    getPersonData(popularMovieData.results);
+        getPersonMovie(popularMovieData.results);
 };
 
-const getPersonData = (movieData) => {
+const getPersonMovie = (movieData) => {
     movieData.map((movie) => {
         log(
             chalk.white(`Movie: \n\n`) +
@@ -63,24 +58,5 @@ const getPersonData = (movieData) => {
             chalk.white(`Release Date: `) +
             chalk.white(` ${movie.release_date} \n`)
         );
-        // getmovieMovie(movie.known_for, movie);
     });
-};
-
-const getPersonMovie = (movies, person) => {
-    let hasMovies = 0;
-    movies.map((movie) => {
-        movie.title !== undefined &&
-            (log(
-                    `\n` +
-                    chalk.white(`\t MOVIE: \n`) +
-                    chalk.white(`\t ID: ${movie.id} \n`) +
-                    chalk.white(`\t Release Date: ${movie.release_date} \n`) +
-                    chalk.white(`\t Title: ${movie.title} `) +
-                    `\n`
-                ),
-                hasMovies++);
-    });
-    hasMovies <= 0 &&
-        log(chalk.white(`${person.name} doesn't appear in any movie \n`));
 };
