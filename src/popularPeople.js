@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from "fs";
 const log = console.log;
 
 import ora from "ora";
+import { title } from "node:process";
 const spinner = ora("Loading popular persons data");
 
 export function getPopularPersons(options, apiKey) {
@@ -45,10 +46,10 @@ const setChalkColors = (popularPersonsData) => {
       )
     );
 
-  getPersonData(popularPersonsData.results);
+  displayPersonData(popularPersonsData.results);
 };
 
-const getPersonData = (personsData) => {
+const displayPersonData = (personsData) => {
   personsData.map((person) => {
     log(
       chalk.white(`----------------------------------------------------- \n`) +
@@ -61,23 +62,12 @@ const getPersonData = (personsData) => {
             chalk.magenta(` ${person.known_for_department}  \n`)
           : "")
     );
-    getPersonMovie(person.known_for, person);
+
+    displayPersonMovie(person.known_for, person);
   });
 };
 
-const savePersonsData = (personsData) => {
-  readFileSync("./storedData/persons/persons.json", (err, data) => {
-    if (err) throw err;
-  });
-
-  try {
-    writeFileSync("./storedData/persons/persons.json", personsData);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-const getPersonMovie = (movies, person) => {
+const displayPersonMovie = (movies, person) => {
   let hasMovies = 0;
   movies.map((movie) => {
     movie.title !== undefined &&
@@ -93,4 +83,13 @@ const getPersonMovie = (movies, person) => {
   });
   hasMovies <= 0 &&
     log(chalk.white(`${person.name} doesn't appear in any movie \n`));
+};
+
+//Saves fetched persons data into an local json file
+const savePersonsData = (personsData) => {
+  try {
+    writeFileSync("./storedData/persons/persons.json", personsData);
+  } catch (err) {
+    console.error(err);
+  }
 };
