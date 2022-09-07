@@ -1,15 +1,18 @@
 import { get } from "node:https";
 import chalk from "chalk";
 
+import { readFileSync, writeFileSync } from "fs";
+
 const log = console.log;
 
 import ora from "ora";
+import { title } from "node:process";
 const spinner = ora("Loading popular persons data");
 
-export function getPopularPersons(page, apiKey) {
+export function getPopularPersons(options, apiKey) {
   spinner.start();
   get(
-    `https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&language=en-US&page=${page}`,
+    `https://api.themoviedb.org/3/person/popular?api_key=${apiKey}&language=en-US&page=${options.page}`,
     (res) => {
       let fetchedData = "";
       res
@@ -17,7 +20,9 @@ export function getPopularPersons(page, apiKey) {
           fetchedData += d;
         })
         .on("end", () => {
-          setChalkColors(JSON.parse(fetchedData));
+          options.save
+            ? savePersonsData(fetchedData)
+            : setChalkColors(JSON.parse(fetchedData));
           spinner.succeed();
           spinner.stop();
         });
@@ -41,11 +46,11 @@ const setChalkColors = (popularPersonsData) => {
       )
     );
 
-  getPersonData(popularPersonsData.results);
+  displayPersonData(popularPersonsData.results);
 };
 
-const getPersonData = (personData) => {
-  personData.map((person) => {
+const displayPersonData = (personsData) => {
+  personsData.map((person) => {
     log(
       chalk.white(`----------------------------------------------------- \n`) +
         chalk.white(`Person: \n\n`) +
@@ -57,11 +62,12 @@ const getPersonData = (personData) => {
             chalk.magenta(` ${person.known_for_department}  \n`)
           : "")
     );
-    getPersonMovie(person.known_for, person);
+
+    displayPersonMovie(person.known_for, person);
   });
 };
 
-const getPersonMovie = (movies, person) => {
+const displayPersonMovie = (movies, person) => {
   let hasMovies = 0;
   movies.map((movie) => {
     movie.title !== undefined &&
@@ -77,4 +83,13 @@ const getPersonMovie = (movies, person) => {
   });
   hasMovies <= 0 &&
     log(chalk.white(`${person.name} doesn't appear in any movie \n`));
+};
+
+//Saves fetched persons data into an local json file
+const savePersonsData = (personsData) => {
+  try {
+    writeFileSync("./storedData/persons/persons.json", personsData);
+  } catch (err) {
+    console.error(err);
+  }
 };
